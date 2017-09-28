@@ -1,3 +1,5 @@
+__author__= 'Pedro J. Torres'
+
 # Allows you to make sure your taxonomic header is the same length throughout taxonomy. Sometimes you get outputs from Blast in which 
 #taxonomic lineage stops at class, but others at species, so this code will fill the rest of your taxonomy with the lowest taxonomic lineage
 #known until it reaches a length of 7 (aka species level).
