@@ -9,7 +9,6 @@ import urllib, urllib2
 import subprocess
 
 # pip install biopython
-# python update_database.py -i newly_addd.txt -s seqtry.map
 #--------Command line arguments------------------------------------------------------------------------------------
 parser=argparse.ArgumentParser(description="Script allows you to count the number of raw reads in a given fastq.gz file ")
 parser.add_argument('-i','--input', help='Input foward sequence, should be same size as reverse',required=True)
@@ -20,6 +19,8 @@ args = parser.parse_args()
 inputfile=str(args.input)
 seqid=str(args.seq_id)
 og_fna_location=str(args.location)
+
+
 
 output=inputfile.split(' ')
 output='_'.join(output)
@@ -34,6 +35,7 @@ def get_tax_id(species):
     """to get data from ncbi taxomomy, we need to have the taxid. we can
     get that by passing the species name to esearch, which will return
     the tax id"""
+    #time.sleep(1)
     species = species.replace(' ', "+").strip()
     search = Entrez.esearch(term = species, db = "taxonomy", retmode = "xml")
     record = Entrez.read(search)
