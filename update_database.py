@@ -3,19 +3,22 @@ import subprocess
 from Bio import SeqIO
 import os,argparse
 from Bio import Entrez
-import re
+import re,time
 import pandas, numpy
 import urllib, urllib2
+import subprocess
 
 # pip install biopython
 #--------Command line arguments------------------------------------------------------------------------------------
 parser=argparse.ArgumentParser(description="Script allows you to count the number of raw reads in a given fastq.gz file ")
 parser.add_argument('-i','--input', help='Input foward sequence, should be same size as reverse',required=True)
 parser.add_argument('-s','--seq_id', help='Input foward sequence, should be same size as reverse',required=True)
+parser.add_argument('-l','--location', help='You can automatically add to our current database. Just insert the location of the fna file',required=False)
 
 args = parser.parse_args()
 inputfile=str(args.input)
 seqid=str(args.seq_id)
+og_fna_location=str(args.location)
 
 output=inputfile.split(' ')
 output='_'.join(output)
@@ -41,8 +44,7 @@ def get_tax_id(species):
         fout.write(species)
         fout.close()
         
-seq_id=open('seq2id.txt','w+')
-
+seq_id_new=open('new_taxa_seq2id.map','w+')
 
 """Check to see if the taxa is in our dataset"""
 for line in open(inputfile, "r"):
@@ -60,32 +62,32 @@ for line in open(inputfile, "r"):
             fasta_fixed={}
             tmp='_'.join(line.split())
             print(line.strip('\n') + ' is empty with taxid '+taxid +'. Will now download fasta.')
-            output=open('New_Taxa/'+tmp+".txt",'a')
+            output=open('New_Taxa/'+tmp+".fna",'a')
             search = "txid"+taxid+"[Organism]"
             handle = Entrez.esearch(db="nucleotide", retmax=10, term=search, idtype="acc")
             record = Entrez.read(handle)
             record = record['IdList']
-
+            species =[]
             """Get Fasta files and reformat into centrifuge fasta"""
-            for acc_num in record:
-                seq2id = acc_num+'    '+taxid
-                seq_id.write(acc_num+'    '+taxid+'\n')
-                handle = Entrez.efetch(db="nuccore", id=acc_num, rettype="fasta", retmode="text")
-                for line in handle:
-                    if line.startswith('>'):
-                        line2=line
-                        fasta_fixed[line2]=''
-                        continue
-                    fasta_fixed[line2]+=line
             count=0
-            for key, value in fasta_fixed.iteritems() :
-                if count==0:
-                    output.write(key)
-                    count+=1
-                else:
-                    output.write("\n"+key)
-                output.write(value.strip('\n'))
+            for acc_num in record:
+                count+=1
+                if count == 3:
+                    time.sleep(1)
+                    count=0
+                    continue
+                seq2id = acc_num+'    '+taxid
+                seq_id_new.write(acc_num+'    '+taxid+'\n')
+                handle = Entrez.efetch(db="nuccore", id=acc_num, rettype="fasta", retmode="text")
+                records = SeqIO.parse(handle, 'fasta')
+                filtered = (rec for rec in records if any(ch != 'N' for ch in rec.seq)) # filters out files with all N's
+                SeqIO.write(filtered, output, "fasta")
         else:
             print(line.strip('\n') + ' is present with taxid '+taxid)
+
+concat= "cat New_Taxa/*.fna >>  New_Taxa/ALL_taxa.fna"
+os.system(concat)
+print('All fna files were concatenated into a new file and can be found here New_Taxa/ALL_taxa.fna')
+
 output.close()    
 print('done')
