@@ -9,6 +9,7 @@ import urllib, urllib2
 import subprocess
 
 # pip install biopython
+# python update_database.py -i newly_addd.txt -s seqtry.map
 #--------Command line arguments------------------------------------------------------------------------------------
 parser=argparse.ArgumentParser(description="Script allows you to count the number of raw reads in a given fastq.gz file ")
 parser.add_argument('-i','--input', help='Input foward sequence, should be same size as reverse',required=True)
