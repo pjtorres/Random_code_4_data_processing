@@ -43,11 +43,11 @@ def get_tax_id(species):
         got = record['IdList'][0]
         return record['IdList'][0]
     except IndexError:
-        fout = open('Taxa_not_found.txt', 'w')
+        fout = open('Taxa_not_found.txt', 'a+')
         fout.write(species)
         fout.close()
         
-seq_id_new=open('new_taxa_seq2id.map','w+')
+seq_id_new=open('new_taxa_seq2id.map','a+')
 
 """Check to see if the taxa is in our dataset"""
 for line in open(inputfile, "r"):
