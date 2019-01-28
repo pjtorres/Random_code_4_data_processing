@@ -4,8 +4,8 @@ import os
 import pandas,numpy
 
 #-----------Command Line Arguments-----------------
-parser=argparse.ArgumentParser(description="Script allows you to convert theyour diamond output into a relative abudnace with percent unique")
-parser.add_argument('-i','--input', help=' Input txt file output from diamond',required=True)
+parser=argparse.ArgumentParser(description="Script ")
+parser.add_argument('-i','--input', help=' Input txt file ',required=True)
 parser.add_argument('-o','--out', help='Name of output file: jsut the mae e.g., "sample1_final"', required=True)#require later
 args = parser.parse_args()
 o_file=str(args.out)
@@ -24,7 +24,7 @@ names=df['qseqid'].unique().tolist()
 
 vf_gene={}
 info=[]
-#---- Reformatting the DIAMOND output to be able to manipulate it easier on pandas -----------
+#---- Reformatting the  output to be able to manipulate it easier on pandas -----------
 print ('start pt1')
 for u_qseqid in names:# iterate through each individual qseqid
     df_u_qseqid=df.loc[df.qseqid==u_qseqid] # here i essentially split my df based on the qseqid 
