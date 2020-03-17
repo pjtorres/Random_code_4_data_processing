@@ -10,6 +10,7 @@ paste in745_1_R1.fastq in745_1_R2.fastq | awk '{ printf("%s",$0); n++;if(n%4==0)
 ## Downlaoding from SRA with fasterq
 
 install [SRA-Toolkit](https://github.com/ncbi/sra-tools/wiki/02.-Installing-SRA-Toolkit)
-``bash
+
+```bash
 fasterq-dump  --outdir ~/SRA_COVID19/  -t ~/sra/  -e 16   -S   --skip-technical SRR11140750
 ```
