@@ -14,3 +14,6 @@ install [SRA-Toolkit](https://github.com/ncbi/sra-tools/wiki/02.-Installing-SRA-
 ```bash
 fasterq-dump  --outdir ~/SRA_COVID19/  -t ~/sra/  -e 16   -S   --skip-technical SRR11140750
 ```
+
+# Download ftp files and only include particular file types or endings - Rsync - Files with same file ending
+`rsync --include="*.gff" --exclude="*.*" --recursive --verbose rsync://ftp.ebi.ac.uk/pub/databases/metagenomics/mgnify_genomes/human-gut/2019_09/uhgg_catalogue/MGYG-HGUT-000/ .`
