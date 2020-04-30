@@ -12,7 +12,7 @@ paste in745_1_R1.fastq in745_1_R2.fastq | awk '{ printf("%s",$0); n++;if(n%4==0)
 install [SRA-Toolkit](https://github.com/ncbi/sra-tools/wiki/02.-Installing-SRA-Toolkit)
 
 ```bash
-fasterq-dump  --outdir ~/SRA_COVID19/  -t ~/sra/  -e 16   -S   --skip-technical SRR11140750
+fasterq-dump  --outdir /home/ubuntu/ssrna_phage/sra/out -t /home/ubuntu/ssrna_phage/sra/tmp -e 18 --split-3    --skip-technical SRR1027978
 ```
 
 # Download ftp files and only include particular file types or endings - Rsync - Files with same file ending
