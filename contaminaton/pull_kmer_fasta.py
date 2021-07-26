@@ -3,9 +3,7 @@ import pandas
 from Bio import SeqIO
 import matplotlib.pyplot as plt
 import os, argparse
-import random
-import matplotlib.pyplot as plt
-plt.switch_backend('agg')
+
 
 #python get_fasta_kmer.py --fna FN668691.1.fna  -s 3733 -e 3999 -o FN668691.1.contamination
 
